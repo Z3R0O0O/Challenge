@@ -1,3 +1,5 @@
+# pip install pyinotify
+
 import os
 import time
 import subprocess
