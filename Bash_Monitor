@@ -6,7 +6,7 @@ import subprocess
 from pyinotify import WatchManager, Notifier, ProcessEvent, IN_MODIFY
 
 # Diretório e arquivo que serão monitorados
-dir_to_watch = '/home/user' # Precisa mudar para o nome do usuário da máquina
+dir_to_watch = '/home/cobaia'
 file_to_watch = '.bash_history'
 full_path = os.path.join(dir_to_watch, file_to_watch)
 
@@ -15,20 +15,14 @@ keywords = ['su', 'sudo']
 
 # Classe para manipular eventos
 class EventHandler(ProcessEvent):
-    def __init__(self):
-        self.counts = {keyword: 0 for keyword in keywords}
-
     def process_IN_MODIFY(self, event):
         if event.pathname == full_path:
             with open(full_path, 'r') as f:
                 content = f.read()
                 for keyword in keywords:
-                    count = content.count(keyword)
-                    if count > self.counts[keyword]:
-                        print(f"A palavra '{keyword}' foi encontrada")
-                        self.counts[keyword] = count
+                    if keyword in content:
+                        print(f"A palavra '{keyword}' foi encontrada em {file_to_watch}")
                         subprocess.run(['bash', '-i'])
-                        print(f"'{keyword}' foi encontrado {count} vezes.")
 
 # Configuração do monitoramento
 wm = WatchManager()
@@ -39,14 +33,14 @@ notifier = Notifier(wm, handler)
 # Inicia o monitoramento
 wdd = wm.add_watch(dir_to_watch, mask, rec=True)
 
-print(f"Monitorando {dir_to_watch}/{file_to_watch}")
+print(f"Monitorando {dir_to_watch}/{file_to_watch} em busca das palavras: {', '.join(keywords)}")
 
-try:
-    while True:
+while True:
+    try:
         notifier.process_events()
         if notifier.check_events():
             notifier.read_events()
-        time.sleep(1)  # Intervalo de verificação em segundos
-except KeyboardInterrupt:
-    notifier.stop()
-    print("Monitoramento interrompido.")
+    except KeyboardInterrupt:
+        notifier.stop()
+        break
+
