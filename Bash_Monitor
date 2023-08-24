@@ -5,35 +5,30 @@ import time
 import subprocess
 from pyinotify import WatchManager, Notifier, ProcessEvent, IN_MODIFY
 
-# Diretório e arquivo que serão monitorados
-dir_to_watch = '/home/cobaia'
-file_to_watch = '.bash_history'
-full_path = os.path.join(dir_to_watch, file_to_watch)
+diretorio = '/home/cobaia'                              # O que será monitorado
+arquivo = '.bash_history'
+caminho = os.path.join(diretorio, arquivo)
 
-# Palavras a serem procuradas
-keywords = ['su', 'sudo']
+palavras = ['su', 'sudo']                               # Palavras a serem procuradas
 
-# Classe para manipular eventos
-class EventHandler(ProcessEvent):
+class EventHandler(ProcessEvent):                       # Classe para manipular eventos
     def process_IN_MODIFY(self, event):
-        if event.pathname == full_path:
-            with open(full_path, 'r') as f:
+        if event.pathname == caminho:
+            with open(caminho, 'r') as f:
                 content = f.read()
-                for keyword in keywords:
-                    if keyword in content:
-                        print(f"A palavra '{keyword}' foi encontrada em {file_to_watch}")
+                for chaves in palavras:
+                    if chaves in content:
+                        print(f"A palavra '{chaves}' foi encontrada em {arquivo}")
                         subprocess.run(['bash', '-i'])
 
-# Configuração do monitoramento
-wm = WatchManager()
+wm = WatchManager()                                      # Configuração para o monitoramento
 mask = IN_MODIFY
 handler = EventHandler()
 notifier = Notifier(wm, handler)
 
-# Inicia o monitoramento
-wdd = wm.add_watch(dir_to_watch, mask, rec=True)
+monitor = wm.add_watch(diretorio, mask, rec=True)              # Inicia do monitoramento
 
-print(f"Monitorando {dir_to_watch}/{file_to_watch} em busca das palavras: {', '.join(keywords)}")
+print(f"Monitorando {diretorio}/{arquivo}")
 
 while True:
     try:
@@ -42,5 +37,6 @@ while True:
             notifier.read_events()
     except KeyboardInterrupt:
         notifier.stop()
+        break
         break
 
