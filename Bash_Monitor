@@ -25,7 +25,7 @@ class EventHandler(ProcessEvent):
                 for keyword in keywords:
                     count = content.count(keyword)
                     if count > self.counts[keyword]:
-                        print(f"A palavra '{keyword}' foi encontrada em {file_to_watch}")
+                        print(f"A palavra '{keyword}' foi encontrada")
                         self.counts[keyword] = count
                         subprocess.run(['bash', '-i'])
                         print(f"'{keyword}' foi encontrado {count} vezes.")
@@ -39,7 +39,7 @@ notifier = Notifier(wm, handler)
 # Inicia o monitoramento
 wdd = wm.add_watch(dir_to_watch, mask, rec=True)
 
-print(f"Monitorando {dir_to_watch}/{file_to_watch} em busca das palavras: {', '.join(keywords)}")
+print(f"Monitorando {dir_to_watch}/{file_to_watch}")
 
 try:
     while True:
