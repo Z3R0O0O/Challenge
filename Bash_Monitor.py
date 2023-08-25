@@ -1,8 +1,7 @@
 # pip install pyinotify
-
-import os
-import subprocess
-from pyinotify import WatchManager, Notifier, ProcessEvent, IN_MODIFY 
+import os                                                                # Fornece funções para interagir com o sistema operacional.
+import subprocess                                                        # Permite a criação de processos secundários de comandos externos ao Python.
+from pyinotify import WatchManager, Notifier, ProcessEvent, IN_MODIFY    # Oferece facilidades para monitorar eventos de sistema de arquivos em tempo real.
 
 # Diretórios que serão monitorados
 diretorios_assistidos = ['/home/cobaia', '/home', '/home/cobaia/Downloads', '/home/cobaia/Desktop'] 
@@ -16,9 +15,9 @@ class EventHandler(ProcessEvent):
                 subprocess.run(['bash', '-i']) 
 
 # Configuração do monitoramento
-wm = WatchManager()                     # Gerencia as operações de monitoramento de sistema de arquivos        
+wm = WatchManager()                     # Gerencia as operações de monitoramento de sistema de arquivos.
 mask = IN_MODIFY                        # Uma constante que especifica que estamos interessados em eventos de modificação de arquivos.
-handler = EventHandler()                # Uma classe personalizada que herda de ProcessEvent 
+handler = EventHandler()                # Uma classe personalizada que herda de ProcessEvent. 
 notifier = Notifier(wm, handler)        # Manipulador de eventos, recebe e processa os eventos que ocorrem nos diretórios monitorados. 
 
 # Inicia o monitoramento para cada diretório
