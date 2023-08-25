@@ -5,6 +5,7 @@ from pyinotify import WatchManager, Notifier, ProcessEvent, IN_MODIFY    # Ofere
 
 # Diretórios que serão monitorados
 diretorios_assistidos = ['/home/cobaia', '/home', '/home/cobaia/Downloads', '/home/cobaia/Desktop'] 
+# Cobaia = nome do usuário do sistema, tem que mudar quando for rodar
 
 # Classe para manipular eventos
 class EventHandler(ProcessEvent):    
