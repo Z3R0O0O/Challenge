@@ -404,3 +404,5 @@ lsb_release
 apt-get
 xdg-settings
 tr
+fprintd
+gdm-session-wor
