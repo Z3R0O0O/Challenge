@@ -407,3 +407,17 @@ tr
 fprintd
 gdm-session-wor
 ls
+Isolated Web Co
+RDD Process
+Utility Process
+Isolated Servic
+Breakpad Server 
+crashreporter
+gnome-terminal
+git-remote-https
+command-not-fou
+top
+vi
+vim
+su
+systemd-hostnam
