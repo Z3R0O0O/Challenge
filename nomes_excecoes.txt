@@ -406,3 +406,4 @@ xdg-settings
 tr
 fprintd
 gdm-session-wor
+ls
