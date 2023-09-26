@@ -421,3 +421,10 @@ vi
 vim
 su
 systemd-hostnam
+geoclue
+apport
+systemd-timesyn
+(d-logind)
+system-crash-notification
+(-localed)
+systemd-localed
